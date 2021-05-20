@@ -37,7 +37,7 @@ class NN():
             y_pred = model(x)
             loss = loss_fn(y_pred, y)
             print('epoch: ', epoch, ' loss: ', loss.item())
-            optimizer.zero_grad
+            optimizer.zero_grad()
             loss.backward()
             optimizer.step()
         return
@@ -52,14 +52,14 @@ class SimpleCNN(nn.Module):
         self.D2_in = D2_in
         self.D2_out = D2_out
         self.D3_out = D3_out
-        self.layer1 = nn.Sequential(nn.Conv2d(self.D_in, self.D_out, kernel_size=3),
-                                    nn.BatchNorm2d(D_out),
+        self.layer1 = nn.Sequential(nn.Conv2d(self.D_in, self.D_out, kernel_size=3, stride=1),
+                                    nn.BatchNorm2d(self.D_out),
                                     nn.ReLU(),
-                                    nn.MaxPool2d(kernel_size=3))
-        self.layer2 = nn.Sequential(nn.Conv2d(self.D2_in, self.D2_out, kernel_size=3),
+                                    nn.MaxPool2d(kernel_size=2, stride=2))
+        self.layer2 = nn.Sequential(nn.Conv2d(self.D2_in, self.D2_out, kernel_size=3, stride=1),
                                     nn.BatchNorm2d(self.D2_out),
                                     nn.ReLU(),
-                                    nn.MaxPool2d(kernel_size=3))
+                                    nn.MaxPool2d(kernel_size=2, stride=2))
         self.fc = nn.Linear(D3_out, N)
 
     def feed_forward(self, x, y):
@@ -75,7 +75,7 @@ class SimpleCNN(nn.Module):
             y_pred = model(x)
             loss = loss_fn(y_pred, y)
             print('epoch: ', epoch, ' loss: ', loss.item())
-            optimizer.zero_grad
+            optimizer.zero_grad()
             loss.backward()
             optimizer.step()
         return out
