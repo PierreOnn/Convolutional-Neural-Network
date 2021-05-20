@@ -2,6 +2,14 @@ import math
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from skimage import io, transform
+import torchvision
+import torch
+
+
+trainset = torchvision.datasets.MNIST(root='data/fer2013.csv', train=True, transform=transform)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=10, shuffle=True, num_workers=2)
+
 
 data = pd.read_csv('data/fer2013.csv')
 
